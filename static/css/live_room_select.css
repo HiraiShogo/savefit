@@ -1,0 +1,28 @@
+.live-h3{
+    text-align: center;
+}
+.livesele-roomselectdiv{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.livesele-roomselecta{
+    display: inline-block;
+    color: #111111;
+    font-size: 30px;
+    background-color: #DDFFFF;
+    border-radius: 10px;
+    height: 80px;
+    width: 40%;
+    margin: 10px 20px;
+}
+.livesele-roomselecta:hover{
+    color: #111111;
+
+}
+.livesele-roomselecta-div{
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 20px 0px 20px;
+    
+}

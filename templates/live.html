@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+<link rel="stylesheet" type="text/css" href="/static/css/mypage.css">
+{% block title %}LIVE{% endblock %}
+
+{% block content %}
+<main class="page-main">
+    <h3 class="live-h3">ライブ画面</h3>
+    <div class="live-air-div">
+        <div id="air-display" class="live-air-div-div"><span>OFF AIR</span></div>
+        
+        <button id="join-leave-button" class="live-live-air-button">配信開始</button>
+    </div>
+    <div class="live-video-area">
+        <video id="local-video" muted playsinline></video>
+        <div id="remote-media-area"></div>
+    </div>
+
+
+</main>
+
+<span hidden id="app_id">{{ app_id }}</span>
+<span hidden id="room_num">{{ room_num}}</span>
+<span hidden id="secret_key">{{ secret_key }}</span>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@skyway-sdk/room/dist/skyway_room-latest.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/live.js') }}"></script>
+
+{% endblock content %}

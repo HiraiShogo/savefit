@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}マイページ{% endblock %}
+
+{% block content %}
+<div class="mypage-body">
+    <div class="mypage-icon-div">
+        <div class="mypage-icon-div-div1">
+            <img src="{{ icon_path }}" alt="アイコン" class="mypage-icon-div-div1-icon">
+            <div class="mypage-icon-div-div1-name"><span>{{ user_name }}</span></div>
+            
+        </div>
+        <div class="mypage-icon-div-div2">
+            <a href="/mypage_edit" class="mypage-icon-div-div2-profileedit"><span>プロフィールを編集する</span></a>
+        </div>
+    </div>
+    <div class="mypage-profile-div">
+        <div class="mypage-profile-intro">
+            {% if self_introduction != None %}
+                <p>{{ self_introduction }}</p>
+            {% else %}
+                <p>よろしくお願いします。</p>
+            {% endif %}
+        </div>
+
+    </div>
+    <!--
+    <div class="mypage-record-div">
+        <div class="mypage-record-div-head">記録</div>
+    </div>
+    -->
+
+</div>
+
+
+
+{% endblock content %}

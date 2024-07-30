@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}マイページ{% endblock %}
+
+{% block content %}
+<div class="mypage-body">
+    <div class="mypage-icon-div">
+        <div class="mypage-icon-div-div1">
+            <img src="{{ icon_path }}" alt="アイコン" id="icon_img" class="mypage-icon-div-div1-icon">
+            <div class="mypage-icon-div-div1-name">
+                表示名
+                <span><input type="text" value={{ user_name }} id="username"></span>
+                <br>
+                <br>
+                アイコン画像
+                <input type="file" id="input-icon" onchange="fileup(this)">
+            </div>
+            
+        </div>
+        <div class="mypage-icon-div-div2">
+            <a href="" class="mypage-icon-div-div2-profileedit" id="profileedit_determine"><span>プロフィールを決定する</span></a>
+        </div>
+    </div>
+    <div class="mypage-profile-div">
+        <div class="mypage-profile-intro">
+            <span>自己紹介</span>
+            {% if self_introduction != None %}
+                <textarea name="" id="self_introduction" cols="150" rows="10" maxlength="160">{{ self_introduction }}</textarea>
+            {% else %}
+                <textarea name="" id="self_introduction" cols="150" rows="10" maxlength="160">よろしくお願いします。</textarea>
+            {% endif %}
+            <p><span id="text-length">0文字</span><span> / 160文字</span></p>
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    // プロフィール編集
+    // アイコン画像がファイル選択されたら表示する
+    const fileup = (e) => {
+        const img = document.getElementById('icon_img');
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            img.src = reader.result;
+        }
+        reader.readAsDataURL(e.files[0]);
+
+    };
+    // 自己紹介に入力されたら文字数を表示する
+    const self_introduction = document.getElementById('self_introduction');
+    const text_length = document.getElementById('text-length');
+    self_introduction.addEventListener('keyup', function(e){
+        let count = self_introduction.value.length;
+        text_length.innerHTML = count + '文字';
+
+    });
+
+    // プロフィールを決定するボタンが押されたら
+    profileedit_determine.addEventListener('click', function(e){
+        e.preventDefault();
+        const form = document.createElement('form');
+        form.action = '/mypage_edit';
+        form.method = 'post';
+        
+        //表示名
+        const data_name = document.createElement('input');
+        const username = document.getElementById('username');
+        data_name.name = 'username';
+        data_name.value = username.value;
+        form.appendChild(data_name);
+
+        //アイコン
+        var icon = document.getElementById('input-icon');
+        var img = document.getElementById('icon_img');
+        var data_icon = document.createElement('input');
+        if (icon.value === ''){
+            data_icon.name = 'icon';
+            data_icon.value = "";
+            form.appendChild(data_icon);
+        }else{
+            
+            
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                img.src = reader.result;
+            }
+            reader.readAsDataURL(icon.files[0]);
+
+            var canvas = document.createElement('canvas');
+            canvas.width  = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            var base64 = canvas.toDataURL("image/*");
+            var picture = base64.replace(/^data:\w+\/\w+;base64,/, '');
+
+            data_icon.name = 'icon';
+            data_icon.value = picture;
+            form.appendChild(data_icon);
+        }
+
+
+        //自己紹介
+        const data_intro = document.createElement('input');
+        const intro = document.getElementById('self_introduction');
+        data_intro.name = 'self_introduction';
+        data_intro.value = intro.value;
+        form.appendChild(data_intro);
+
+        document.body.appendChild(form);
+
+        form.submit();
+    });
+
+</script>
+
+{% endblock content %}

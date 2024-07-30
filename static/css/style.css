@@ -1,0 +1,275 @@
+a{
+    text-decoration: none;
+}
+nav{
+    display: flex;
+    justify-content: space-between;
+}
+
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+}
+
+
+
+
+/*ヘッダー*/
+header{
+    background-color: rgba(11, 255, 23, 0.527);
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+}
+.header1{
+    text-align:center;
+}
+.header2{
+    display: flex;
+    position: relative;
+    
+}
+.header2-right1, .header2-right2{
+    width: 120px;
+    background-color: rgba(122, 250, 129, 0.527);
+    color: black;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-right: 10px;
+    text-align: center;
+}
+.header2-right1{
+    display: flex;
+    justify-content: center;
+}
+.header2-right1:hover, .header2-right2:hover{
+    color: black;
+    opacity: 0.8;
+}
+.header2-right1:hover + .dropdown-nav{
+    visibility: visible;
+}
+.dropdown-nav:hover{
+    visibility: visible;
+}
+
+.header2-right1-div{
+    border: 1px solid black;
+    position: absolute;
+    
+}
+
+.header2-right1-triangle{
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+    margin: auto 0 auto 5px;
+}
+.dropdown-nav{
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 200px;
+    transition-delay: 0.05s;
+    visibility: hidden;
+}
+.dropdown-nav-ul{
+    padding: 0;
+}
+
+.dropdown-nav-ul-li{
+    background-color: #EEEE;
+    height: 60px;
+    
+    position: relative;
+
+    text-align: center;
+}
+.dropdown-nav-ul-li a{
+    color: black;
+    border: 0.1px solid gray;
+    display: inline-block;
+    padding-top: 15px;
+    height: 100%;
+    width: 100%;
+}
+.dropdown-nav-ul-li a:hover{
+    background-color: #CCCC;
+}
+.link{
+    
+    color: whitesmoke;
+    font-size: 30px;
+    text-shadow: 5px 5px 7px rosybrown;
+}
+.header-link{
+    width: 150px;
+
+}
+.header-link:hover{
+    color: whitesmoke;
+    opacity: 0.8 ;
+}
+
+/*フッター*/
+.footer2{
+    background-color: rgb(1, 0, 35);
+    color: white;
+    padding: 5px;
+}
+.footer-link:hover{
+    color: gray;
+    font-size: 31px;
+}
+.copylight{
+    margin-top: 20px;
+    text-align: center;
+}
+.footer1{
+    background-color: rgb(34, 30, 84);
+    color: white;
+    padding: 5px;
+}
+.footer-nav-linkmenu + .footer-nav-linkmenu::before{
+    content: "|";
+    padding-right: 10px;
+    padding-left: 10px;
+    
+}
+.footer-nav-linkmenu-ul{
+    justify-content: center;
+    color: white;
+}
+.footer-nav-linkmenu a:hover{
+    text-decoration: underline;
+    color: white;
+}
+
+/*---------------post-section-----------------------*/
+.page-main{
+    margin: 10px auto;
+    width: 1300px;
+    border-right: 1px solid gray;
+    border-left: 1px solid gray;
+    border-top: 1px solid gray;
+}
+.home-main-golink{
+    display: flex;
+    justify-content: space-around;
+}
+.home-main-golink-watch, .home-main-golink-live{
+    border: 0px solid gray;
+    border-radius: 50px;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    margin: 5px;
+}
+.home-main-golink-live{
+    background-color: #ff4500;
+}
+.home-main-golink-watch{
+    background-color: #4169e1;
+
+}
+.home-main-golink-watch-a, .home-main-golink-live-a{
+    display: inline-block;
+    border-radius: 50px;
+    height: 100px;
+    width: 300px;
+    padding-top: 35px;
+}
+.home-main-golink-watch-a span{
+    color: white;
+    font-size: 20px;
+}
+.home-main-golink-live-a span{
+    
+    color: white;
+    font-size: 20px;
+}
+
+
+/*------------------login.html-----------------*/
+.warning_pass_different{
+    color: red;
+}
+
+
+.login {
+    width: 400px;
+    margin: 16px auto;
+    font-size: 16px;
+  }
+  
+  /* Reset top and bottom margins from certain elements */
+  .login-header,
+  .login p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+
+  
+  .login-header {
+    background: #3cb371;
+    padding: 20px;
+    font-size: 1.4em;
+    font-weight: normal;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  
+  .login-container {
+    background: #ebebeb;
+    padding: 12px;
+  }
+  
+  /* Every row inside .login-container is defined with p tags */
+  .login p {
+    padding: 12px;
+  }
+  
+  .login p input {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    border-width: 1px;
+    border-style: solid;
+    padding: 16px;
+    outline: 0;
+    font-family: inherit;
+    font-size: 0.95em;
+  }
+
+.login-container-password{
+    position: relative;
+}
+.login-hidden-button{
+    position: absolute;
+    top: 25px;
+    left: 300px;
+}
+  
+  
+  .login input[type="submit"] {
+    background: #3cb371;
+    border-color: transparent;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .login input[type="submit"]:hover {
+    background: #2e8b57;
+  }
+  
+  /* Buttons' focus effect */
+  .login input[type="submit"]:focus {
+    border-color: #2e8b57;
+  }

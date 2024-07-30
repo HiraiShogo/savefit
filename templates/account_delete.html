@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}アカウント設定{% endblock %}
+
+{% block content %}
+
+<div class="accdel-body">
+    <h3 class="accdel-h3">アカウント削除</h3>
+    <h4 class="accdel-h4">アカウントを削除すると、登録した情報全てが削除されます。<br>
+    本当に削除しますか？</h4>
+    <div class="accdel-formdiv">
+        <form method="POST">
+            <p><input type="submit" value="アカウント削除"></p>
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,28 @@
+.live-air-div{
+    display: flex;
+    margin: 0 20px;
+}
+
+.live-air-div-div{
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    padding: 5px 20px;
+    background-color: gray;
+    border-radius: 10px 0 0 10px;
+}
+.live-air-div-div span{
+    font-size: 20px;
+}
+
+.live-live-air-button{
+    font-size: 20px;
+    color: white;
+    background-color: #2C7CFF;
+    border-radius: 10px;
+    border: none;
+    padding: 5px 20px;
+}
+.live-video-area{
+    margin: 20px;
+}

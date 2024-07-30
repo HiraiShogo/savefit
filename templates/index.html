@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}ホーム{% endblock %}
+
+{% block content %}
+
+    <main class="page-main">
+        <h2>ようこそSaveFitへ</h2>
+        {% if user_name %}
+            <div class="home-main-golink">
+                <div class="home-main-golink-live">
+                    <a href="/live" class="home-main-golink-live-a"><span>配信はこちら</span></a>
+                </div>
+
+            </div>
+            <div class="home-main-golink-explanation"><span>※配信にはカメラとログインが必要です。</span></div>
+        {% else %}
+            <div class="home-main-golink">
+                <div class="home-main-golink-live">
+                    <a href="/live" class="home-main-golink-live-a"><span>配信はこちら</span></a>
+                </div>
+                <div class="home-main-golink-watch">
+                    <a href="" class="home-main-golink-watch-a"><span>視聴のみ</span></a>
+                </div>
+            </div>
+        {% endif %}
+        <div class="post-div">
+            <div class="post-div-div1">
+                <div class="post-div-div1-icon"></div>
+                <div class="post-div-div1-username"></div>
+            </div>
+            <div class="post-div-div2">
+                <div class="post-div-div2-message"></div>
+                <div class="post-div-div2-fileselect"></div>
+            </div>
+        </div>
+    </main>
+    
+{% endblock content %}

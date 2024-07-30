@@ -1,0 +1,66 @@
+.mypage-body{
+    margin: 10px auto;
+    width: 1300px;
+
+    background-color: whitesmoke;
+}
+
+/* mypage-icon-div */
+.mypage-icon-div{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 50px 0px 50px;
+}
+.mypage-icon-div-div1{
+    display: flex;
+}
+.mypage-icon-div-div1-icon{
+    margin-right: 50px;
+    border: 1px solid gray;
+    border-radius: 100px;
+    background-repeat:  no-repeat;            
+    width:200px;
+    height:200pX;
+    object-fit: cover;
+}
+.mypage-icon-div-div1-name span{
+    font-size: 40px;
+    padding-top: 30px;
+
+}
+.mypage-icon-div-div2{
+
+    padding-top: 50px;
+}
+.mypage-icon-div-div2-profileedit{
+    padding: 15px 15px;
+    border: 1px solid black;
+    border-radius: 30px;
+    background-color: white;
+
+}
+.mypage-icon-div-div2-profileedit:hover{
+    opacity: 0.8;
+}
+.mypage-icon-div-div2-profileedit span{
+    color: black;
+    font-size: 16px;
+}
+
+/* mypage-profile-div */
+.mypage-profile-div{
+    margin: 10px 50px;
+}
+
+
+/* mypage-record-div */
+.mypage-record-div-head{
+    background-color: gray;
+    border: 1px solid black;
+    text-align: center;
+
+}
+
+
+/* --------------------mypage_edit.html-------------------- */
+

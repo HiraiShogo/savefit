@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}ホーム{% endblock %}
+
+{% block content %}
+<div class="login">
+  <h2 class="login-header">ログイン</h2>
+
+  <form method="POST" class="login-container" id="hash-form" name="myform">
+    <p><input type="text" name="user_mail" placeholder="e-mail"></p>
+    <div class="login-container-password">
+      <p><input type="password" name="user_pass" placeholder="パスワード" id="origin_password"></p>
+      <input class="login-hidden-button" type="button" id="hidden_button" value="表示">
+    </div>
+    <input type="password" name="hash_pass" hidden>
+    {% if warning == "pass_different" %}
+      <label class="warning_pass_different" for="">パスワードが違います。</label>
+      <label class="">パスワードを忘れた場合は<a href="/password_reset">こちら</a></label>
+    {% elif warning == "again" %}
+      <label class="warning_again" for="">エラーが発生しました。もう一度ログインしてください。</label>
+    {% elif warning == "certification_different" %}
+      <label class="warning_certification_different" for="">仮登録状態になっています。メールをご確認ください。</label>
+    {% endif %}
+    <input type="submit" value="送信" />
+  </form>
+  <!--<button id="hash_submit">送信</button>-->
+  
+</div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
+{% endblock content %}

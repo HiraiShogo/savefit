@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}登録{% endblock %}
+
+{% block content %}
+    <form method="POST" class="register-form" name="form">
+        <div class="name">
+            <label for="namelabel">表示名</label>
+            <input type="text" name="user_name" id="namelabel" placeholder="表示名" maxlength="16" title="半角英数字で入力してください。">
+            <label for="">16文字以下</label>
+
+        </div>
+        <div class="email">
+            <label for="emaillabel">e-mail</label>
+            <input type="text" name="user_mail" id="emaillabel" placeholder="e-mail" maxlength="50"pattern="^[a-zA-Z0-9.!#$&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$" title="半角英数字で入力してください。">
+            {% if warning == "e-mail" %}
+                <label class="warning_id" for="">既に使用されているe-mailです。</label>
+            {% endif %}
+        </div>
+        <div class="password">
+            <label for="passwordlabel">パスワード</label>
+            <input class="inputs" type="password" name="user_pass" id="password" minlength="6" pattern="[a-zA-Z0-9!-/:-@\[-`{-~]*" placeholder="パスワード" title="半角英数字記号で入力してください。">
+            <input class="button" type="button" id="hidden_button" value="表示">
+            <label for="">半角英数字記号6文字以上</label>
+            
+        </div>
+        <div class="submit">
+            <input type="submit" value="送信する" id="submit">
+        </div>  
+    </form>
+
+{% endblock content %}

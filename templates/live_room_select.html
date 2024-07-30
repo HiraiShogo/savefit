@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}配信ルーム選択{% endblock %}
+
+{% block content %}
+<main class="page-main">
+    <h3 class="live-h3">配信ルーム選択</h3>
+    <div class="livesele-roomselectdiv">
+        <a href="" class="livesele-roomselecta" id="room1-a"><div class="livesele-roomselecta-div"><span>ルーム1</span><span id="room1-people"></span></div></a>
+        <a href="" class="livesele-roomselecta" id="room2-a"><div class="livesele-roomselecta-div"><span>ルーム2</span><span id="room2-people"></span></div></a>
+        <a href="" class="livesele-roomselecta" id="room3-a"><div class="livesele-roomselecta-div"><span>ルーム3</span><span id="room3-people"></span></div></a>
+        <a href="" class="livesele-roomselecta" id="room4-a"><div class="livesele-roomselecta-div"><span>ルーム4</span><span id="room4-people"></span></div></a>
+        <a href="" class="livesele-roomselecta" id="room5-a"><div class="livesele-roomselecta-div"><span>ルーム5</span><span id="room5-people"></span></div></a>
+        <a href="" class="livesele-roomselecta" id="room6-a"><div class="livesele-roomselecta-div"><span>ルーム6</span><span id="room6-people"></span></div></a>
+        <a href="" class="livesele-roomselecta" id="room7-a"><div class="livesele-roomselecta-div"><span>ルーム7</span><span id="room7-people"></span></div></a>
+        <a href="" class="livesele-roomselecta" id="room8-a"><div class="livesele-roomselecta-div"><span>ルーム8</span><span id="room8-people"></span></div></a>
+        <a href="" class="livesele-roomselecta" id="room9-a"><div class="livesele-roomselecta-div"><span>ルーム9</span><span id="room9-people"></span></div></a>
+        <a href="" class="livesele-roomselecta" id="room10-a"><div class="livesele-roomselecta-div"><span>ルーム10</span><span id="room10-people"></span></div></a>
+
+    </div>
+
+
+
+</main>
+
+<span hidden id="app_id">{{ app_id }}</span>
+<span hidden id="secret_key">{{ secret_key }}</span>
+<video id="v"></video>
+<script src="https://cdn.jsdelivr.net/npm/@skyway-sdk/room/dist/skyway_room-latest.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/live_room_select.js') }}"></script>
+
+{% endblock content %}
