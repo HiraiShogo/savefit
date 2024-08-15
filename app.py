@@ -18,10 +18,18 @@ with open('../password.json') as f:
 sqlserver_pass = password_dict['sql_server_pass']
 server_URL = 'localhost:8000'
 #server_URL = 'https://www/savefit'
+
+# SQL変数
+G_SQL_hostname = "localhost"
+G_SQL_username = "root"
+G_SQL_port = "3306"
+G_SQL_database = "test"
+G_SQL_password = sqlserver_pass
+
 '''
 #SQL処理
-cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
 cursor = cnx.cursor()
 
 cursor.close()
@@ -83,8 +91,8 @@ def index():
     if "id" in session:
         id = session["id"]
         #SQL処理
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         sql = "select username from user_info where id=%s"
         cursor.execute(sql, (id,))
@@ -105,8 +113,8 @@ def login():
         print("hashパスワード：{}".format(form_hash_pass))
         print("userパスワード：{}".format(form_user_pass))
         #SQL処理
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         sql = "select id, password, mail_certification from user_info where email=%s"
         cursor.execute(sql, (form_user_mail,))
@@ -138,8 +146,8 @@ def register():
         user_pass = request.form['user_pass']
 
         #SQL処理
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         #メール重複　確認
         sql = "select * from user_info where email=%s"
@@ -153,8 +161,8 @@ def register():
         else:
 
             #SQL処理
-            cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                                        password=sqlserver_pass)
+            cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                                        password=G_SQL_password)
             cursor = cnx.cursor()
             #{user_info}テーブルにデータ追加
             sql = "INSERT INTO user_info (username, email, password) VALUE (%s, %s, %s)"
@@ -201,8 +209,8 @@ def register():
 def register_certification():
     encrypt_deadline = request.args.get("encrypt_text")
     #SQL処理
-    cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                        password=sqlserver_pass)
+    cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                        password=G_SQL_password)
     cursor = cnx.cursor()
     #メール重複　確認
     sql = "select * from temporary_registration_list where encrypt_text=%s"
@@ -219,8 +227,8 @@ def register_certification():
         deadline_time = datetime.strptime(deadline_time, "%Y-%m-%d %H:%M:%S.%f")
 
         #SQL処理 
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         sql = ('DELETE FROM temporary_registration_list WHERE id=%s')
         cursor.execute(sql, [id])
@@ -231,8 +239,8 @@ def register_certification():
         if decrypt_deadline <= deadline_time:
 
             #SQL処理 
-            cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                                password=sqlserver_pass)
+            cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                                password=G_SQL_password)
             cursor = cnx.cursor()
             sql = ('UPDATE user_info SET mail_certification = %s WHERE id = %s')
             cursor.execute(sql, (True, id))
@@ -255,8 +263,8 @@ def logout():
 def mypage():
     if "id" in session:
         id = session["id"]
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         #SQL処理
         sql = "select * from user_info where id=%s"
@@ -275,8 +283,8 @@ def mypage():
 def mypage_edit():
     if "id" in session:
         id = session["id"]
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         #SQL処理
         sql = "select * from user_info where id=%s"
@@ -293,8 +301,8 @@ def mypage_edit():
             post_user_intro = request.form['self_introduction']
 
             #SQL処理
-            cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+            cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
             cursor = cnx.cursor()
 
             if len(post_user_icon)==0:
@@ -322,8 +330,8 @@ def mypage_edit():
 def account_setting():
     if "id" in session:
         id = session["id"]
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         #SQL処理
         sql = "select * from user_info where id=%s"
@@ -342,8 +350,8 @@ def account_setting():
 def live():
     if "id" in session:
         id = session["id"]
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         #SQL処理
         sql = "select * from user_info where id=%s"
@@ -381,8 +389,8 @@ def live_room_select():
     if "id" in session:
         id = session["id"]
         #SQL処理
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         sql = "select username from user_info where id=%s"
         cursor.execute(sql, (id,))
@@ -403,8 +411,8 @@ def password_reset():
         id = session["id"]
 
         #SQL処理
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         sql = "select username, password from user_info where id=%s"
         cursor.execute(sql, (id,))
@@ -419,8 +427,8 @@ def password_reset():
             user_newpass = request.form['user_newpass']
             if user_pass == sql_pass:
                 #SQL処理 
-                cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                                    password=sqlserver_pass)
+                cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                                    password=G_SQL_password)
                 cursor = cnx.cursor()
                 sql = ('UPDATE user_info SET password = %s WHERE id = %s')
                 cursor.execute(sql, (user_newpass, id))
@@ -442,8 +450,8 @@ def account_delete():
         id = session["id"]
 
         #SQL処理
-        cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                            password=sqlserver_pass)
+        cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                            password=G_SQL_password)
         cursor = cnx.cursor()
         sql = "select username from user_info where id=%s"
         cursor.execute(sql, (id,))
@@ -455,8 +463,8 @@ def account_delete():
         if request.method == 'POST':
             # アカウント削除
             #SQL処理 
-            cnx=mysql.connector.connect(host="localhost", user="root", port="3306",database="test", \
-                                password=sqlserver_pass)
+            cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                                password=G_SQL_password)
             cursor = cnx.cursor()
             sql = ('DELETE FROM user_info WHERE id=%s')
             cursor.execute(sql, [id])
@@ -472,6 +480,21 @@ def account_delete():
         return redirect(url_for("login"))
 
 
+@app.route("/sqltest", methods=['GET', 'POST'])
+def sqltest():
+    id = 1
+    #SQL処理
+    cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                        password=G_SQL_password)
+    cursor = cnx.cursor()
+    sql = "select username from user_info where id=%s"
+    cursor.execute(sql, (id,))
+    result = cursor.fetchall()
+    user_name = result[0][0]
+    cursor.close()
+    cnx.close()
+
+    return render_template('test.html', user_name=user_name)
 
 if __name__ == '__main__' :
     app.run(host='0.0.0.0', port=8000, threaded=True, debug=True)
