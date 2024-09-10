@@ -53,7 +53,7 @@ const token = new SkyWayAuthToken({
 const localVideo = document.getElementById('local-video');
 
 const { audio, video } = await SkyWayStreamFactory.createMicrophoneAudioAndCameraStream({
-    video: { height: 144, width: 256, frameRate: 1 },
+    video: { height: 144, width: 256, frameRate: 24 },
 }); // 2
 
 video.attach(localVideo); // 3

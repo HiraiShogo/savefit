@@ -16,11 +16,11 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 with open('../password.json') as f:
     password_dict = json.load(f)
 sqlserver_pass = password_dict['sql_server_pass']
-server_URL = 'localhost:8000'
-#server_URL = 'https://www/savefit'
+sqlserver_hostname = password_dict['sql_hostname']
+server_URL = 'https://savefit'
 
 # SQL変数
-G_SQL_hostname = "localhost"
+G_SQL_hostname = sqlserver_hostname
 G_SQL_username = "root"
 G_SQL_port = "3306"
 G_SQL_database = "test"
@@ -119,24 +119,59 @@ def login():
         sql = "select id, password, mail_certification from user_info where email=%s"
         cursor.execute(sql, (form_user_mail,))
         result = cursor.fetchall()
-        id = result[0][0]
-        user_pass = result[0][1]
-        mail_certification = result[0][2]
-        cursor.close()
-        cnx.close()
 
         if (len(result)==0):
+            # 参照結果がない：SQL通信を終了して、再びログイン画面に戻す
+            cursor.close()
+            cnx.close()
             return render_template('login.html', warning="again")
-        elif(user_pass!=form_user_pass):
-            return render_template('login.html', warning="pass_different")
-        elif(mail_certification!=True):
-            return render_template('login.html', warning="certification_different")
         else:
-            session.permanent = True
-            session["id"] = id
-            
-            return redirect(url_for("index"))
-    return render_template('login.html')
+            # 参照結果がある：結果を変数に格納して、SQL通信を終了する
+            id = result[0][0]
+            user_pass = result[0][1]
+            mail_certification = result[0][2]
+            cursor.close()
+            cnx.close()
+
+            # パスワードが不一致
+            if(user_pass!=form_user_pass):
+                return render_template('login.html', warning="pass_different")
+            # 認証メールがFalse
+            elif(mail_certification!=True):
+                #SQL処理
+                cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                                    password=G_SQL_password)
+                cursor = cnx.cursor()
+                sql = "select time_limit, encrypt_text from temporary_registration_list where email=%s"
+                cursor.execute(sql, [form_user_mail])
+                result = cursor.fetchall()
+                cursor.close()
+                cnx.close()
+
+                deadline_time = result[0][0]
+                ct = result[0][1]
+
+                #ctの"+"を"%2B"に変換する  "+"はクエリパラメータで使えない
+                ct_replace_plus = ct.replace("+", "%2B")
+                temporary_URL = server_URL + '/register_certification?encrypt_text=' + ct_replace_plus
+                #期限の表記変更 秒単位を消す
+                deadline_time = datetime.strptime(deadline_time, '%Y-%m-%d %H:%M:%S.%f')
+                deadline_time = str(deadline_time.strftime('%Y-%m-%d %H:%M'))
+
+                #認証メール送信
+                send_message(subject='SaveFit 仮登録完了のお知らせ', mail_to=form_user_mail, body='''
+                    下記リンクをクリックすると本登録が完了します。<br>
+                    期限:{}まで<br><br>
+                    <a href="{}">{}</a><br>
+                    '''.format(deadline_time, temporary_URL, temporary_URL))
+                return render_template('login.html', warning="certification_different")
+            else:
+                session.permanent = True
+                session["id"] = id
+                
+                return redirect(url_for("index"))
+    else:
+        return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -156,10 +191,9 @@ def register():
         cursor.close()
         cnx.close()
 
-        if len(mail_check_result)!=0:#メール重複あり
+        if len(mail_check_result)!=0: # user_infoテーブルにメール重複あり
             return render_template('register.html', warning="e-mail")
         else:
-
             #SQL処理
             cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
                                         password=G_SQL_password)
@@ -202,7 +236,8 @@ def register():
                 '''.format(deadline_time, temporary_URL, temporary_URL))
 
             return render_template('register_done.html')
-    return render_template('register.html')
+    else:
+        return render_template('register.html')
 
 
 @app.route('/register_certification', methods=["GET"])
@@ -236,7 +271,7 @@ def register_certification():
         cursor.close()
         cnx.close()
 
-        if decrypt_deadline <= deadline_time:
+        if datetime.now() <= decrypt_deadline:
 
             #SQL処理 
             cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
@@ -250,14 +285,25 @@ def register_certification():
 
             return render_template('register_complete.html')
         else:
+            #SQL処理 
+            cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
+                                password=G_SQL_password)
+            cursor = cnx.cursor()
+            sql = ('DELETE FROM user_info WHERE id=%s')
+            cursor.execute(sql, [id])
+            cnx.commit()
+            cursor.close()
+            cnx.close()
             return render_template('register_expired.html')
     else:
         return render_template('register_expired.html')
+
 
 @app.route("/logout") #ログアウトする
 def logout():
     session.pop("id", None) #削除
     return redirect(url_for("index"))
+
 
 @app.route("/mypage")
 def mypage():
@@ -278,6 +324,7 @@ def mypage():
         return render_template('mypage.html', user_name=user_name, self_introduction=self_introduction, icon_path=icon_path)
     else:
         return redirect(url_for("login"))
+
 
 @app.route("/mypage_edit", methods=['GET', 'POST'])
 def mypage_edit():
@@ -326,6 +373,7 @@ def mypage_edit():
             return render_template('mypage_edit.html', user_name=user_name, self_introduction=self_introduction, icon_path=icon_path)
     return redirect(url_for("login"))
 
+
 @app.route("/account_setting", methods=['GET', 'POST'])
 def account_setting():
     if "id" in session:
@@ -345,6 +393,7 @@ def account_setting():
         return render_template('account_setting.html', user_name=user_name, self_introduction=self_introduction, icon_path=icon_path)
     else:
         return redirect(url_for("login"))
+
 
 @app.route("/live", methods=['GET', 'POST'])
 def live():
@@ -384,6 +433,7 @@ def live():
     else:
         return redirect(url_for("login"))
 
+
 @app.route("/live_room_select")
 def live_room_select():
     if "id" in session:
@@ -403,6 +453,7 @@ def live_room_select():
                                 secret_key=password_dict['skyway_secret_key'])
     else:
         return redirect(url_for("login"))
+
 
 @app.route("/password_reset", methods=['GET', 'POST'])
 def password_reset():
@@ -444,6 +495,7 @@ def password_reset():
     else:
         return redirect(url_for("login"))
 
+
 @app.route("/account_delete", methods=['GET', 'POST'])
 def account_delete():
     if "id" in session:
@@ -480,21 +532,7 @@ def account_delete():
         return redirect(url_for("login"))
 
 
-@app.route("/sqltest", methods=['GET', 'POST'])
-def sqltest():
-    id = 1
-    #SQL処理
-    cnx=mysql.connector.connect(host=G_SQL_hostname, user=G_SQL_username, port=G_SQL_port,database=G_SQL_database, \
-                        password=G_SQL_password)
-    cursor = cnx.cursor()
-    sql = "select username from user_info where id=%s"
-    cursor.execute(sql, (id,))
-    result = cursor.fetchall()
-    user_name = result[0][0]
-    cursor.close()
-    cnx.close()
 
-    return render_template('test.html', user_name=user_name)
 
 if __name__ == '__main__' :
     app.run(host='0.0.0.0', port=8000, threaded=True, debug=True)
